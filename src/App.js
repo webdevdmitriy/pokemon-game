@@ -10,7 +10,7 @@ function App() {
 	return (
 		<>
 			<Header title='This is title' descr='This is Description!' />
-			<Layout title='This is title' descr='This is Description!' urlBg={BackGround} />
+			<Layout title='This is title!' descr='This is Description!' urlBg={BackGround} />
 			<Layout title='This is title' descr='This is Description!' colorBg='blue' />
 			<Layout title='This is title' descr='This is Description!' urlBg={BackGround} />
 			<Footer />
