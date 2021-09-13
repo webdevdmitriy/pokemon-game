@@ -1,10 +1,10 @@
 import s from './style.module.css'
 
-const Layout = ({ title, descr, urlBg, colorBg }) => {
+const Layout = ({ title, descr, urlBg, colorBg, children }) => {
 	return (
 		<section
 			className={s.root}
-			style={urlBg ? { backgroundImage: `url(${urlBg})` } : { backgroundColor: `${colorBg}` }}
+			style={urlBg ? { backgroundImage: `url(${urlBg})` } : colorBg ? { backgroundColor: `${colorBg}` } : ''}
 		>
 			<div className={s.wrapper}>
 				<article>
@@ -12,9 +12,7 @@ const Layout = ({ title, descr, urlBg, colorBg }) => {
 						<h3>{title}</h3>
 						<span className={s.separator}></span>
 					</div>
-					<div className={`${s.desc} ${s.full}`}>
-						<p>{descr}</p>
-					</div>
+					<div className={`${s.desc} ${s.full}`}>{children}</div>
 				</article>
 			</div>
 		</section>
