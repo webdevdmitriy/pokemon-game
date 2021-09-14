@@ -1,29 +1,18 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Menu from '../Menu'
 import NavBar from '../NavBar'
 
 import s from './style.module.css'
-const Menu = () => {
+
+const MenuHeader = () => {
+	const [activeMenu, setMenuActive] = useState(false)
+	const handleShowMenu = () => setMenuActive(prevState => !prevState)
+
 	return (
-		<div class='menuContainer active/deactive'>
-			<div class='overlay' />
-			<div class='menuItems'>
-				<ul>
-					<li>
-						<a href='#welcome'>HOME</a>
-					</li>
-					<li>
-						<a href='#game'>GAME</a>
-					</li>
-					<li>
-						<a href='#about'>ABOUT</a>
-					</li>
-					<li>
-						<a href='#contact'>CONTACT</a>
-					</li>
-				</ul>
-			</div>
-		</div>
+		<React.Fragment>
+			<Menu activeMenu={activeMenu} />
+			<NavBar onShowMenu={handleShowMenu} activeMenu={activeMenu} />
+		</React.Fragment>
 	)
 }
 

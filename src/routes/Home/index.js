@@ -8,13 +8,14 @@ import BackGround from '../../assets/bg1.jpg'
 import s from './style.module.css'
 
 import POKEMONS from '../../assets/pokemons.json'
+import MenuHeader from '../../components/MenuHeader'
 function HomePage({ onChangePage }) {
 	const handleClickButton = page => {
-		console.log('HomePage')
 		onChangePage && onChangePage(page)
 	}
 	return (
 		<>
+			<MenuHeader />
 			<Header title='This is title' descr='This is Description!' onClickButton={handleClickButton} />
 			<Layout title='This is title!' descr='This is Description!' urlBg={BackGround}>
 				<p>
