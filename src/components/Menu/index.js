@@ -6,23 +6,26 @@ import s from './style.module.css'
 const MENU = [
 	{
 		title: 'HOME',
-		to: '#welcome'
+		to: '/'
 	},
 	{
 		title: 'GAME',
 		to: 'game'
 	},
 	{
-		title: 'HOME',
-		to: '#about'
+		title: 'ABOUT',
+		to: 'about'
 	},
 	{
-		title: 'CONTACT',
-		to: '#contact'
+		title: 'CONTACTS',
+		to: 'contacts'
 	}
 ]
 
-const Menu = ({ activeMenu }) => {
+const Menu = ({ activeMenu, onShowMenu }) => {
+	const onClickItemMenu = () => {
+		onShowMenu && onShowMenu()
+	}
 	return (
 		<div className={cn(s.menuContainer, { [s.active]: activeMenu === true, [s.deactive]: activeMenu === false })}>
 			<div className={s.overlay} />
@@ -30,7 +33,7 @@ const Menu = ({ activeMenu }) => {
 				<ul>
 					{MENU.map(({ title, to }, index) => {
 						return (
-							<li key={index}>
+							<li key={index} onClick={onClickItemMenu}>
 								<Link to={to}>{title}</Link>
 							</li>
 						)

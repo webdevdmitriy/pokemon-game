@@ -10,7 +10,7 @@ const MenuHeader = ({ bgActive }) => {
 
 	return (
 		<React.Fragment>
-			<Menu activeMenu={activeMenu} />
+			<Menu onShowMenu={handleShowMenu} activeMenu={activeMenu} />
 			<NavBar onShowMenu={handleShowMenu} bgActive={bgActive} activeMenu={activeMenu} />
 		</React.Fragment>
 	)
