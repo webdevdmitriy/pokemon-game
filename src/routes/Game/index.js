@@ -11,7 +11,7 @@ const GamePage = () => {
 
 	const handleCardClick = id => {
 		setPOKEMONS(prevState => {
-			const mas = [...prevState].map(card => {
+			const mas = prevState.map(card => {
 				if (card.id === id) {
 					card = {
 						...card,
