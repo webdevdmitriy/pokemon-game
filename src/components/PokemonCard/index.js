@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import cn from 'classnames'
 
 import cardBakeSide from './assets/card-back-side.jpg'
