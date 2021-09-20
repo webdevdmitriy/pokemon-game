@@ -1,20 +1,23 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import PokemonCard from '../../components/PokemonCard'
 import Layout from '../../components/Layout'
 
-import database from '../../service/firebase'
+import { FireBaseContext } from '../../context/firebaseContext'
 
 import s from './style.module.css'
 
 const GamePage = () => {
+	const fireBase = useContext(FireBaseContext)
+	console.log(fireBase)
+
 	const [pokemons, setPOKEMONS] = useState({})
 
 	useEffect(() => {
-		database.ref('pokemons').once('value', snapshot => {
-			setPOKEMONS(snapshot.val())
+		fireBase.getPokemonSocket(pokemons => {
+			setPOKEMONS(pokemons)
 		})
-	}, [pokemons])
+	}, [])
 
 	const handleCardClick = id => {
 		setPOKEMONS(prevState => {
@@ -25,9 +28,8 @@ const GamePage = () => {
 				}
 
 				acc[item[0]] = pokemon
-				database.ref('pokemons/' + item[0]).set({
-					...pokemon
-				})
+
+				fireBase.postPokemon(item[0], pokemon)
 
 				return acc
 			}, {})
@@ -58,14 +60,9 @@ const GamePage = () => {
 				left: 5
 			}
 		}
-
-		const newKey = database.ref().child('pokemons').push().key
-
-		database.ref('pokemons/' + newKey).set({
-			...data,
-			id: Math.floor(Math.random() * 100)
-		})
+		fireBase.addPokemon(data)
 	}
+
 	return (
 		<Layout title='This is title' descr='This is Description!' colorBg='blue'>
 			<button
@@ -75,7 +72,6 @@ const GamePage = () => {
 				}}
 				onClick={addPokemon}
 			>
-				{' '}
 				Add new pokemon
 			</button>
 			<div className={s.flex}>
