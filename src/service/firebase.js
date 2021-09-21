@@ -11,15 +11,18 @@ const firebaseConfig = {
 }
 
 firebase.initializeApp(firebaseConfig)
-console.log(firebase.initializeApp(firebaseConfig))
 class Firebase {
 	constructor() {
 		this.fire = firebase
 		this.database = this.fire.database()
 	}
-
 	getPokemonSocket = cb => {
 		this.database.ref('pokemons').on('value', snapshot => {
+			cb(snapshot.val())
+		})
+	}
+	offPokemonSocket = cb => {
+		this.database.ref('pokemons').off('value', snapshot => {
 			cb(snapshot.val())
 		})
 	}
