@@ -17,7 +17,7 @@ const StartPage = () => {
 
 	const selectPokemon = key => {
 		const pokemon = { ...pokemons[key] }
-		pokemonsContext.onSelectedPokemon(key, pokemon)
+		pokemonsContext.onSelectedPokemons(key, pokemon)
 		setpokemons(prevState => ({
 			...prevState,
 			[key]: {
@@ -26,13 +26,16 @@ const StartPage = () => {
 			}
 		}))
 	}
-
 	useEffect(() => {
-		firebase.getPokemonSoket(pokemons => {
+		firebase.getPokemonSocket(pokemons => {
 			setpokemons(pokemons)
 		})
-		return () => firebase.offPokemonSoket()
+
+		return () => {
+			firebase.offPokemonSocket()
+		}
 	}, [])
+
 	const startGame = () => {
 		history.push('/game/board')
 	}
@@ -48,19 +51,21 @@ const StartPage = () => {
 				{Object.entries(pokemons).map(([key, { name, img, id, type, values, active, selected }]) => (
 					<PokemonCard
 						key={key}
-						className={s.card}
-						isSelected={selected}
-						onChangePockemon={() => {
-							if (Object.keys(pokemonsContext.pokemon).length < 5 || selected) {
-								selectPokemon(key)
-							}
-						}}
-						isActive={active}
 						name={name}
 						img={img}
 						id={id}
 						type={type}
 						values={values}
+						onChangeisActive={() => {
+							if (Object.keys(pokemonsContext.pokemon).length < 5 || selected) {
+								selectPokemon(key)
+							}
+						}}
+						isActive={true}
+						objID={key}
+						minimize={false}
+						isSelected={selected}
+						className={s.card}
 					/>
 				))}
 			</div>

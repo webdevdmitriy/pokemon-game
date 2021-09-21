@@ -1,5 +1,6 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/database'
+
 const firebaseConfig = {
 	apiKey: 'AIzaSyCbASPLrkL9d3Zp_2SsrIGfC_dQ1JRQvjw',
 	authDomain: 'pokemon-game-a5653.firebaseapp.com',
@@ -11,22 +12,22 @@ const firebaseConfig = {
 }
 
 firebase.initializeApp(firebaseConfig)
+
 class Firebase {
 	constructor() {
 		this.fire = firebase
 		this.database = this.fire.database()
 	}
+
 	getPokemonSocket = cb => {
 		this.database.ref('pokemons').on('value', snapshot => {
 			cb(snapshot.val())
 		})
 	}
-	offPokemonSocket = cb => {
-		this.database.ref('pokemons').off('value', snapshot => {
-			cb(snapshot.val())
-		})
-	}
 
+	offPokemonSocket = () => {
+		this.database.ref('pokemons').off()
+	}
 	getPokemonsOnce = async () => {
 		return await this.database
 			.ref('pokemons')
@@ -34,13 +35,17 @@ class Firebase {
 			.then(snapshot => snapshot.val())
 	}
 
-	postPokemon = (key, pokemon) => {
-		this.database.ref(`pokemons/${key}`).set({ ...pokemon })
+	setPokemon = (key, pokemon) => {
+		this.database.ref(`pokemons/${key}`).set(pokemon)
 	}
 
-	addPokemon = data => {
+	addPokemon = (data, cb) => {
 		const newKey = this.database.ref().child('pokemons').push().key
-		this.database.ref('pokemons/' + newKey).set(data)
+		this.database
+			.ref('pokemons/' + newKey)
+			.set(data)
+			.then(() => cb())
 	}
 }
+
 export default Firebase
