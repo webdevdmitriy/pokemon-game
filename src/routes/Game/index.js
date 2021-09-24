@@ -9,6 +9,7 @@ const GamePage = () => {
 	const match = useRouteMatch()
 	const [selectedPokemons, setSelectedPokemons] = useState({})
 	const [pokemonPlayer2, setPokemonPlayer2] = useState([])
+	const [result, setResult] = useState(null)
 
 	const handleSelectedPokemon = (key, pokemon) => {
 		setSelectedPokemons(prevState => {
@@ -23,10 +24,9 @@ const GamePage = () => {
 			}
 		})
 	}
-	const handlePokemonPlayer2 = pokemon => {
-		setPokemonPlayer2(prevState => {
-			return [...prevState, ...pokemon]
-		})
+	const clearContext = () => {
+		setSelectedPokemons({})
+		setPokemonPlayer2([])
 	}
 
 	return (
@@ -34,8 +34,11 @@ const GamePage = () => {
 			value={{
 				pokemon: selectedPokemons,
 				onSelectedPokemons: handleSelectedPokemon,
-				pokemonPlayer2: pokemonPlayer2,
-				setPokemonPlayer2: setPokemonPlayer2
+				pokemonPlayer2,
+				setPokemonPlayer2,
+				clearContext,
+				result,
+				setResult
 			}}
 		>
 			<Switch>

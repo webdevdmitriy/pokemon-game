@@ -23,7 +23,7 @@ const counterWin = (board, player1, player2) => {
 }
 
 const BoardPage = () => {
-	const { pokemon, setPokemonPlayer2 } = useContext(PokemonContext)
+	const { pokemon, setPokemonPlayer2, setResult } = useContext(PokemonContext)
 	const [board, setBoard] = useState([])
 	const [Player1, setPlayer1] = useState(() => {
 		return Object.values(pokemon).map(item => ({
@@ -51,7 +51,6 @@ const BoardPage = () => {
 		const Player2Request = await Player2Responce.json()
 
 		setPokemonPlayer2(Player2Request.data)
-		console.log('####### player2', Player2Request.data)
 
 		setPlayer2(() => {
 			return Player2Request.data.map(item => ({
@@ -98,6 +97,7 @@ const BoardPage = () => {
 			const [count1, count2] = counterWin(board, Player1, Player2)
 
 			if (count1 > count2) {
+				setResult('WIN')
 				alert('WIN')
 				history.replace('/game/finish')
 			} else if (count1 < count2) {
