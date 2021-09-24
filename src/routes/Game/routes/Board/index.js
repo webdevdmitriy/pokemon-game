@@ -23,8 +23,7 @@ const counterWin = (board, player1, player2) => {
 }
 
 const BoardPage = () => {
-	const { pokemon } = useContext(PokemonContext)
-	console.log(pokemon)
+	const { pokemon, setPokemonPlayer2 } = useContext(PokemonContext)
 	const [board, setBoard] = useState([])
 	const [Player1, setPlayer1] = useState(() => {
 		return Object.values(pokemon).map(item => ({
@@ -42,7 +41,6 @@ const BoardPage = () => {
 		history.replace('/game')
 	}
 
-	console.log(Player2)
 	useEffect(async () => {
 		const boardResponce = await fetch('https://reactmarathon-api.netlify.app/api/board')
 		const boardRequest = await boardResponce.json()
@@ -51,6 +49,9 @@ const BoardPage = () => {
 
 		const Player2Responce = await fetch('https://reactmarathon-api.netlify.app/api/create-player')
 		const Player2Request = await Player2Responce.json()
+
+		setPokemonPlayer2(Player2Request.data)
+		console.log('####### player2', Player2Request.data)
 
 		setPlayer2(() => {
 			return Player2Request.data.map(item => ({
@@ -98,10 +99,13 @@ const BoardPage = () => {
 
 			if (count1 > count2) {
 				alert('WIN')
+				history.replace('/game/finish')
 			} else if (count1 < count2) {
 				alert('LOSE')
+				history.replace('/game/finish')
 			} else {
 				alert('DRAW')
+				history.replace('/game/finish')
 			}
 		}
 	}, [steps])
