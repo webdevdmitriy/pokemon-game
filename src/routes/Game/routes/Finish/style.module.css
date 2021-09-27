@@ -1,0 +1,27 @@
+.root {
+	margin: 0 auto;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.playerOne {
+	display: flex;
+	justify-content: space-between;
+}
+
+.playerTwo {
+	display: flex;
+	justify-content: space-between;
+}
+
+.card {
+	width: 100%;
+	height: 380px;
+	cursor: pointer;
+}
+
+.button {
+	margin: 20px auto;
+}

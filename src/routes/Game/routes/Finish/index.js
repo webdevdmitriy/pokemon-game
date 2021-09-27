@@ -1,8 +1,118 @@
+import { useHistory } from 'react-router'
+import { useContext, useState } from 'react'
+
+import { PokemonContext } from '../../../../context/PokemonContext'
+import PokemonCard from '../../../../components/PokemonCard'
+
+import s from './style.module.css'
+import { FireBaseContext } from '../../../../context/firebaseContext'
+
 const FinishPage = () => {
+	const { pokemon, pokemonPlayer2, setPokemonPlayer2, clearContext, result, setResult } = useContext(PokemonContext)
+	const firebase = useContext(FireBaseContext)
+	const history = useHistory()
+	const [choiceCard, setChoiceCard] = useState(null)
+
+	if (pokemonPlayer2.length === 0) {
+		history.replace('/game')
+	}
+
+	const handleClickEndButton = () => {
+		if (choiceCard !== null) {
+			const newPokemon = pokemonPlayer2[choiceCard]
+
+			delete newPokemon.selected
+			delete newPokemon.possession
+			firebase.addPokemon(newPokemon, () => {})
+		}
+		history.push('/game')
+
+		clearContext()
+		setResult(null)
+	}
+
+	const handleChoiceCard = key => {
+		if (choiceCard === null) {
+			setPokemonPlayer2(prevState => {
+				const result = {
+					...prevState,
+					[key]: {
+						...prevState[key],
+						selected: true
+					}
+				}
+				return result
+			})
+			setChoiceCard(key)
+		} else if (choiceCard === key) {
+			setPokemonPlayer2(prevState => {
+				const result = {
+					...prevState,
+					[key]: {
+						...prevState[key],
+						selected: false
+					}
+				}
+				return result
+			})
+			setChoiceCard(null)
+		}
+	}
+
 	return (
-		<>
-			<h1>FinishPage</h1>
-		</>
+		<div>
+			<div className={s.root}>
+				<div className={s.playerOne}>
+					{Object.values(pokemon).map(item => (
+						<PokemonCard
+							className={s.card}
+							key={item.id}
+							name={item.name}
+							img={item.img}
+							id={item.id}
+							type={item.type}
+							values={item.values}
+							isActive
+							minimize={false}
+						/>
+					))}
+				</div>
+
+				<button
+					className={s.button}
+					type='button'
+					onClick={handleClickEndButton}
+					disabled={result === 'WIN' && choiceCard === null}
+				>
+					END GAME
+				</button>
+
+				<div className={s.playerTwo}>
+					{console.log(pokemonPlayer2)}
+					{console.log(Object.entries(pokemonPlayer2))}
+					{Object.entries(pokemonPlayer2).map(([key, { keyId, name, img, id, type, values, selected }]) => (
+						<PokemonCard
+							key={key}
+							name={name}
+							img={img}
+							id={id}
+							type={type}
+							values={values}
+							isActive={true}
+							objID={key}
+							minimize={false}
+							isSelected={selected}
+							className={s.card}
+							onChangeisActive={() => {
+								if (result === 'WIN') {
+									handleChoiceCard(key)
+								}
+							}}
+						/>
+					))}
+				</div>
+			</div>
+		</div>
 	)
 }
 
