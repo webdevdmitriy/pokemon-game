@@ -1,16 +1,21 @@
 import { useState, useEffect, useContext } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import PokemonCard from '../../../../components/PokemonCard'
 
 import { FireBaseContext } from '../../../../context/firebaseContext'
 import { PokemonContext } from '../../../../context/PokemonContext'
+import { selectPokemonsData, getPokemonsAsync, selectPokemonsLoading } from '../../../../store/pokemons'
 
 import s from './style.module.css'
 
 const StartPage = () => {
 	const firebase = useContext(FireBaseContext)
-
 	const pokemonsContext = useContext(PokemonContext)
+	const isLoading = useSelector(selectPokemonsLoading)
+
+	const pokemonsRedux = useSelector(selectPokemonsData)
+	const dispatch = useDispatch()
 
 	const history = useHistory()
 	const [pokemons, setpokemons] = useState({})
@@ -29,12 +34,14 @@ const StartPage = () => {
 	useEffect(() => {
 		firebase.getPokemonSocket(pokemons => {
 			setpokemons(pokemons)
+			// dispatch(getPokemons(pokemons))
+			dispatch(getPokemonsAsync())
 		})
-
-		return () => {
-			firebase.offPokemonSocket()
-		}
 	}, [])
+
+	useEffect(() => {
+		setpokemons(pokemonsRedux)
+	}, [pokemonsRedux])
 
 	const startGame = () => {
 		history.push('/game/board')
