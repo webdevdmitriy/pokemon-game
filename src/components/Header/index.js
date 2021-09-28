@@ -5,7 +5,7 @@ const Header = ({ title, descr, onClickButton }) => {
 	const history = useHistory()
 	const handleClick = () => {
 		onClickButton && onClickButton()
-		// history.push('/game')
+		history.push('/game')
 	}
 
 	return (

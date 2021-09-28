@@ -6,20 +6,29 @@ import PokemonCard from '../../../../components/PokemonCard'
 
 import s from './style.module.css'
 import { FireBaseContext } from '../../../../context/firebaseContext'
+import { selectPokemonsSelectedData } from '../../../../store/pokemonsPlayer1'
+import { selectPokemons2Data } from '../../../../store/pokemonsPlayer2'
+import { useSelector } from 'react-redux'
 
 const FinishPage = () => {
-	const { pokemon, pokemonPlayer2, setPokemonPlayer2, clearContext, result, setResult } = useContext(PokemonContext)
+	// const { pokemon, pokemonPlayer2, setPokemonPlayer2, clearContext, result, setResult } = useContext(PokemonContext)
 	const firebase = useContext(FireBaseContext)
+
 	const history = useHistory()
 	const [choiceCard, setChoiceCard] = useState(null)
 
-	if (pokemonPlayer2.length === 0) {
+	const pokemons1Redux = useSelector(selectPokemonsSelectedData)
+	const pokemons2Redux = useSelector(selectPokemons2Data)
+
+	const [pokemonPlayer2, setPokemonPlayer2] = useState(pokemons2Redux)
+
+	if (pokemons2Redux.length === 0) {
 		history.replace('/game')
 	}
 
 	const handleClickEndButton = () => {
 		if (choiceCard !== null) {
-			const newPokemon = pokemonPlayer2[choiceCard]
+			const newPokemon = pokemons2Redux[choiceCard]
 
 			delete newPokemon.selected
 			delete newPokemon.possession
@@ -27,8 +36,8 @@ const FinishPage = () => {
 		}
 		history.push('/game')
 
-		clearContext()
-		setResult(null)
+		// clearContext()
+		// setResult(null)
 	}
 
 	const handleChoiceCard = key => {
@@ -63,7 +72,7 @@ const FinishPage = () => {
 		<div>
 			<div className={s.root}>
 				<div className={s.playerOne}>
-					{Object.values(pokemon).map(item => (
+					{Object.values(pokemons1Redux).map(item => (
 						<PokemonCard
 							className={s.card}
 							key={item.id}
@@ -82,14 +91,12 @@ const FinishPage = () => {
 					className={s.button}
 					type='button'
 					onClick={handleClickEndButton}
-					disabled={result === 'WIN' && choiceCard === null}
+					// disabled={result === 'WIN' && choiceCard === null}
 				>
 					END GAME
 				</button>
 
 				<div className={s.playerTwo}>
-					{console.log(pokemonPlayer2)}
-					{console.log(Object.entries(pokemonPlayer2))}
 					{Object.entries(pokemonPlayer2).map(([key, { keyId, name, img, id, type, values, selected }]) => (
 						<PokemonCard
 							key={key}
@@ -104,9 +111,10 @@ const FinishPage = () => {
 							isSelected={selected}
 							className={s.card}
 							onChangeisActive={() => {
-								if (result === 'WIN') {
-									handleChoiceCard(key)
-								}
+								// if (result === 'WIN') {
+								// 	handleChoiceCard(key)
+								// }
+								handleChoiceCard(key)
 							}}
 						/>
 					))}

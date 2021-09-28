@@ -6,23 +6,40 @@ import PokemonCard from '../../../../components/PokemonCard'
 import { FireBaseContext } from '../../../../context/firebaseContext'
 import { PokemonContext } from '../../../../context/PokemonContext'
 import { selectPokemonsData, getPokemonsAsync, selectPokemonsLoading } from '../../../../store/pokemons'
+import { selectPokemonsSelectedData, setPokemonsSelected } from '../../../../store/pokemonsPlayer1'
 
 import s from './style.module.css'
 
 const StartPage = () => {
-	const firebase = useContext(FireBaseContext)
-	const pokemonsContext = useContext(PokemonContext)
+	// const firebase = useContext(FireBaseContext)
+	// const pokemonsContext = useContext(PokemonContext)
+
 	const isLoading = useSelector(selectPokemonsLoading)
 
 	const pokemonsRedux = useSelector(selectPokemonsData)
+	const pokemons1Redux = useSelector(selectPokemonsSelectedData)
+
 	const dispatch = useDispatch()
 
 	const history = useHistory()
 	const [pokemons, setpokemons] = useState({})
 
+	useEffect(() => {
+		// firebase.getPokemonSocket(pokemons => {
+		// 	setpokemons(pokemons)
+		// 	// dispatch(getPokemons(pokemons))
+		// 	dispatch(getPokemonsAsync())
+		// })
+		dispatch(getPokemonsAsync())
+	}, [])
+
+	useEffect(() => {
+		setpokemons(pokemonsRedux)
+	}, [pokemonsRedux])
+
 	const selectPokemon = key => {
 		const pokemon = { ...pokemons[key] }
-		pokemonsContext.onSelectedPokemons(key, pokemon)
+		// pokemonsContext.onSelectedPokemons(key, pokemon)
 		setpokemons(prevState => ({
 			...prevState,
 			[key]: {
@@ -30,18 +47,8 @@ const StartPage = () => {
 				selected: !prevState[key].selected
 			}
 		}))
+		dispatch(setPokemonsSelected({ key, pokemon }))
 	}
-	useEffect(() => {
-		firebase.getPokemonSocket(pokemons => {
-			setpokemons(pokemons)
-			// dispatch(getPokemons(pokemons))
-			dispatch(getPokemonsAsync())
-		})
-	}, [])
-
-	useEffect(() => {
-		setpokemons(pokemonsRedux)
-	}, [pokemonsRedux])
 
 	const startGame = () => {
 		history.push('/game/board')
@@ -50,7 +57,7 @@ const StartPage = () => {
 	return (
 		<div>
 			<div style={{ display: 'block', margin: '0, auto' }}>
-				<button onClick={startGame} disabled={Object.keys(pokemonsContext.pokemon).length < 5}>
+				<button onClick={startGame} disabled={Object.keys(pokemons1Redux).length < 5}>
 					Start Game
 				</button>
 			</div>
@@ -64,7 +71,7 @@ const StartPage = () => {
 						type={type}
 						values={values}
 						onChangeisActive={() => {
-							if (Object.keys(pokemonsContext.pokemon).length < 5 || selected) {
+							if (Object.keys(pokemons1Redux).length < 5 || selected) {
 								selectPokemon(key)
 							}
 						}}

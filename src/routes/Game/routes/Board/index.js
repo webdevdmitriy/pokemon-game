@@ -5,7 +5,12 @@ import { useEffect } from 'react/cjs/react.development'
 import PokemonCard from '../../../../components/PokemonCard'
 import { PokemonContext } from '../../../../context/PokemonContext'
 import PlayerBoard from './component/PlayerBoard'
+
 import s from './style.module.css'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { selectPokemonsSelectedData } from '../../../../store/pokemonsPlayer1'
+import { setPokemons2 } from '../../../../store/pokemonsPlayer2'
 
 const counterWin = (board, player1, player2) => {
 	let player1Count = player1.length
@@ -23,10 +28,15 @@ const counterWin = (board, player1, player2) => {
 }
 
 const BoardPage = () => {
-	const { pokemon, setPokemonPlayer2, setResult } = useContext(PokemonContext)
+	// const { pokemon, setPokemonPlayer2, setResult } = useContext(PokemonContext)
+	const [result, setResult] = useState(null)
+
+	const pokemons1Redux = useSelector(selectPokemonsSelectedData)
+	console.log(pokemons1Redux)
+
 	const [board, setBoard] = useState([])
 	const [Player1, setPlayer1] = useState(() => {
-		return Object.values(pokemon).map(item => ({
+		return Object.values(pokemons1Redux).map(item => ({
 			...item,
 			possession: 'blue'
 		}))
@@ -37,7 +47,9 @@ const BoardPage = () => {
 
 	const history = useHistory()
 
-	if (Object.keys(pokemon).length === 0) {
+	const dispatch = useDispatch()
+
+	if (Object.keys(pokemons1Redux).length === 0) {
 		history.replace('/game')
 	}
 
@@ -50,7 +62,8 @@ const BoardPage = () => {
 		const Player2Responce = await fetch('https://reactmarathon-api.netlify.app/api/create-player')
 		const Player2Request = await Player2Responce.json()
 
-		setPokemonPlayer2(Player2Request.data)
+		// setPokemonPlayer2(Player2Request.data)
+		dispatch(setPokemons2(Player2Request.data))
 
 		setPlayer2(() => {
 			return Player2Request.data.map(item => ({
