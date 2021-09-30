@@ -4,12 +4,12 @@ import Menu from '../Menu'
 import Modal from '../Modal'
 import NavBar from '../NavBar'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
+import { useEffect } from 'react/cjs/react.development'
 
 const MenuHeader = ({ bgActive }) => {
 	const [activeMenu, setMenuActive] = useState(null)
 	const [isOpenModal, setOpenModal] = useState(false)
 	const handleShowMenu = () => setMenuActive(prevState => !prevState)
-
 	const handleClickLogin = () => {
 		setOpenModal(prevState => !prevState)
 	}
