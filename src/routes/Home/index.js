@@ -2,6 +2,7 @@ import Header from '../../components/Header'
 import Layout from '../../components/Layout'
 import Footer from '../../components/Footer'
 import PokemonCard from '../../components/PokemonCard'
+import { useDispatch, useSelector } from 'react-redux'
 
 import BackGround from '../../assets/bg1.jpg'
 
@@ -9,14 +10,24 @@ import s from './style.module.css'
 
 import POKEMONS from '../../assets/pokemons.json'
 import MenuHeader from '../../components/MenuHeader'
+import { plusAction, selectCount } from '../../store/counter'
+
 function HomePage({ onChangePage }) {
+	const count = useSelector(selectCount)
+	const dispatch = useDispatch()
+
+	console.log('count', count)
+
 	const handleClickButton = page => {
-		onChangePage && onChangePage(page)
+		// onChangePage && onChangePage(page)
+		dispatch(plusAction(1))
+		console.log('count', count)
 	}
 	return (
 		<>
 			<MenuHeader />
 			<Header title='This is title' descr='This is Description!' onClickButton={handleClickButton} />
+
 			<Layout title='This is title!' descr='This is Description!' urlBg={BackGround}>
 				<p>
 					In the game two players face off against one another, one side playing as "blue", the other as "red" on a 3x3
