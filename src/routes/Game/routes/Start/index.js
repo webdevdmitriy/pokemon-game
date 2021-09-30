@@ -11,9 +11,6 @@ import { selectPokemonsSelectedData, setPokemonsSelected } from '../../../../sto
 import s from './style.module.css'
 
 const StartPage = () => {
-	// const firebase = useContext(FireBaseContext)
-	// const pokemonsContext = useContext(PokemonContext)
-
 	const isLoading = useSelector(selectPokemonsLoading)
 
 	const pokemonsRedux = useSelector(selectPokemonsData)
@@ -25,11 +22,6 @@ const StartPage = () => {
 	const [pokemons, setpokemons] = useState({})
 
 	useEffect(() => {
-		// firebase.getPokemonSocket(pokemons => {
-		// 	setpokemons(pokemons)
-		// 	// dispatch(getPokemons(pokemons))
-		// 	dispatch(getPokemonsAsync())
-		// })
 		dispatch(getPokemonsAsync())
 	}, [])
 
@@ -39,7 +31,6 @@ const StartPage = () => {
 
 	const selectPokemon = key => {
 		const pokemon = { ...pokemons[key] }
-		// pokemonsContext.onSelectedPokemons(key, pokemon)
 		setpokemons(prevState => ({
 			...prevState,
 			[key]: {

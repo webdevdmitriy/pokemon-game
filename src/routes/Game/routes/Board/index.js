@@ -28,7 +28,6 @@ const counterWin = (board, player1, player2) => {
 }
 
 const BoardPage = () => {
-	// const { pokemon, setPokemonPlayer2, setResult } = useContext(PokemonContext)
 	const [result, setResult] = useState(null)
 
 	const pokemons1Redux = useSelector(selectPokemonsSelectedData)

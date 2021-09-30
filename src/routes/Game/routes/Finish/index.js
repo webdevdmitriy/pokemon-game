@@ -11,7 +11,6 @@ import { selectPokemons2Data } from '../../../../store/pokemonsPlayer2'
 import { useSelector } from 'react-redux'
 
 const FinishPage = () => {
-	// const { pokemon, pokemonPlayer2, setPokemonPlayer2, clearContext, result, setResult } = useContext(PokemonContext)
 	const firebase = useContext(FireBaseContext)
 
 	const history = useHistory()

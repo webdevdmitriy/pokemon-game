@@ -24,30 +24,8 @@ const GamePage = () => {
 			}
 		})
 	}
-	// const clearContext = () => {
-	// 	setSelectedPokemons({})
-	// 	setPokemonPlayer2([])
-	// }
 
 	return (
-		// <PokemonContext.Provider
-		// 	value={{
-		// 		pokemon: selectedPokemons,
-		// 		onSelectedPokemons: handleSelectedPokemon,
-		// 		pokemonPlayer2,
-		// 		setPokemonPlayer2,
-		// 		clearContext,
-		// 		result,
-		// 		setResult
-		// 	}}
-		// >
-		// 	<Switch>
-		// 		<Route path={`${match.path}/`} exact component={StartPage} />
-		// 		<Route path={`${match.path}/board`} component={BoardPage} />
-		// 		<Route path={`${match.path}/finish`} component={FinishPage} />
-		// 	</Switch>
-		// </PokemonContext.Provider>
-
 		<Switch>
 			<Route path={`${match.path}/`} exact component={StartPage} />
 			<Route path={`${match.path}/board`} component={BoardPage} />

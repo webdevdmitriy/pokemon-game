@@ -20,27 +20,24 @@ const App = () => {
 	const location = useLocation('/')
 	const isPadding = location.pathname === '/' || location.pathname === 'game/board'
 	return (
-		<FireBaseContext.Provider value={FirebaseClass}>
-			<Switch>
-				<Route path='/404' component={NotFoundPage} />
-				<Route>
-					<>
-						<MenuHeader bgActive={!isPadding} />
-						<div className={cn(s.wrap, { [s.isHomePage]: isPadding })}>
-							<Switch>
-								<Route path='/' exact component={HomePage} />
-								<Route path='/game' component={GamePage} />
-								<Route path='/about' component={AboutPage} />
-								<Route path='/contacts' component={ContactsPage} />
-								<Route render={() => <Redirect to='/404' />} />
-							</Switch>
-						</div>
-
-						<Footer />
-					</>
-				</Route>
-			</Switch>
-		</FireBaseContext.Provider>
+		<Switch>
+			<Route path='/404' component={NotFoundPage} />
+			<Route>
+				<>
+					<MenuHeader bgActive={!isPadding} />
+					<div className={cn(s.wrap, { [s.isHomePage]: isPadding })}>
+						<Switch>
+							<Route path='/' exact component={HomePage} />
+							<Route path='/game' component={GamePage} />
+							<Route path='/about' component={AboutPage} />
+							<Route path='/contacts' component={ContactsPage} />
+							<Route render={() => <Redirect to='/404' />} />
+						</Switch>
+					</div>
+					<Footer />
+				</>
+			</Route>
+		</Switch>
 	)
 }
 
