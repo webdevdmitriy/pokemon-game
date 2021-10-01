@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react/cjs/react.development'
 import Input from '../Input'
+import s from './style.module.css'
 
-const LoginForm = ({ onSubmit, isOpenModal }) => {
+const LoginForm = ({ onSubmit, isOpenModal, isAuth, onChangeAuth }) => {
 	const [email, setEmail] = useState('test@mail.ru')
 	const [password, setPassword] = useState('')
 
@@ -18,8 +19,12 @@ const LoginForm = ({ onSubmit, isOpenModal }) => {
 			})
 		setEmail('')
 		setPassword('')
-		console.log(email)
 	}
+	if (isOpenModal === 'false') {
+		setEmail('')
+		setPassword('')
+	}
+
 	return (
 		<form onSubmit={handelSubmit}>
 			<div className=''>
@@ -37,7 +42,11 @@ const LoginForm = ({ onSubmit, isOpenModal }) => {
 					onChange={e => setPassword(e.target.value)}
 				/>
 			</div>
-			<button>Login</button>
+			<button>{isAuth ? 'Signin' : 'Signup'}</button>
+
+			<div className={s.auth} onClick={onChangeAuth}>
+				<span> {isAuth ? 'Login' : 'Register'}</span>
+			</div>
 		</form>
 	)
 }
