@@ -3,7 +3,7 @@ import cn from 'classnames'
 import s from './style.module.css'
 import { ReactComponent as LoginSVG } from '../../assets/login.svg'
 
-const NavBar = ({ onShowMenu, bgActive = false, activeMenu, onClickLogin }) => {
+const NavBar = ({ onShowMenu, bgActive = false, activeMenu, handleClickLogin }) => {
 	const onClickButtonMenu = () => {
 		onShowMenu && onShowMenu()
 	}
@@ -12,7 +12,7 @@ const NavBar = ({ onShowMenu, bgActive = false, activeMenu, onClickLogin }) => {
 			<div className={s.navWrapper}>
 				<p className={s.brand}>LOGO</p>
 				<div className={s.loginAndMenu}>
-					<div className={s.loginWrap} onClick={onClickLogin}>
+					<div className={s.loginWrap} onClick={handleClickLogin}>
 						<LoginSVG />
 					</div>
 					<div className={cn(s.menuButton, { [s.active]: activeMenu })} onClick={onClickButtonMenu}>

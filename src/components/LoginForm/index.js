@@ -2,9 +2,16 @@ import { useEffect, useState } from 'react/cjs/react.development'
 import Input from '../Input'
 import s from './style.module.css'
 
-const LoginForm = ({ onSubmit, isOpenModal, isAuth, onChangeAuth }) => {
+const LoginForm = ({ onSubmit, isOpenModal, isAuth, onChangeAuth, isResetField = false }) => {
 	const [email, setEmail] = useState('test@mail.ru')
 	const [password, setPassword] = useState('')
+
+	const [isLogin, setLogin] = useState(true)
+
+	useEffect(() => {
+		setEmail('')
+		setPassword('')
+	}, [isResetField])
 
 	useEffect(() => {
 		setEmail('')
@@ -14,25 +21,18 @@ const LoginForm = ({ onSubmit, isOpenModal, isAuth, onChangeAuth }) => {
 		e.preventDefault()
 		onSubmit &&
 			onSubmit({
+				type: isLogin ? 'login' : 'signup',
 				email,
 				password
 			})
-		setEmail('')
-		setPassword('')
-	}
-	if (isOpenModal === 'false') {
-		setEmail('')
-		setPassword('')
 	}
 
 	return (
 		<form onSubmit={handelSubmit}>
 			<div className=''>
-				{/* <input value={email} name='email' onChange={e => setEmail(e.target.value)} /> */}
 				<Input value={email} required label='Email' name='email' onChange={e => setEmail(e.target.value)} />
 			</div>
 			<div className=''>
-				{/* <input value={password} type='password' name='password' onChange={e => setPassword(e.target.value)} /> */}
 				<Input
 					value={password}
 					type='password'
@@ -42,10 +42,10 @@ const LoginForm = ({ onSubmit, isOpenModal, isAuth, onChangeAuth }) => {
 					onChange={e => setPassword(e.target.value)}
 				/>
 			</div>
-			<button>{isAuth ? 'Signin' : 'Signup'}</button>
+			<button>{isLogin ? 'Signin' : 'Signup'}</button>
 
-			<div className={s.auth} onClick={onChangeAuth}>
-				<span> {isAuth ? 'Login' : 'Register'}</span>
+			<div className={s.auth} onClick={() => setLogin(!isLogin)}>
+				<span> {isLogin ? 'Login' : 'Register'}</span>
 			</div>
 		</form>
 	)
