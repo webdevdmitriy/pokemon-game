@@ -9,12 +9,15 @@ import { FireBaseContext } from '../../../../context/firebaseContext'
 import { selectPokemonsSelectedData } from '../../../../store/pokemonsPlayer1'
 import { selectPokemons2Data } from '../../../../store/pokemonsPlayer2'
 import { useSelector } from 'react-redux'
+import { selectLocalID } from '../../../../store/user'
+import FirebaseClass from '../../../../service/firebase'
 
 const FinishPage = () => {
 	const firebase = useContext(FireBaseContext)
 
 	const history = useHistory()
 	const [choiceCard, setChoiceCard] = useState(null)
+	const userID = useSelector(selectLocalID)
 
 	const pokemons1Redux = useSelector(selectPokemonsSelectedData)
 	const pokemons2Redux = useSelector(selectPokemons2Data)
@@ -31,7 +34,8 @@ const FinishPage = () => {
 
 			delete newPokemon.selected
 			delete newPokemon.possession
-			firebase.addPokemon(newPokemon, () => {})
+			// firebase.addPokemon(newPokemon, () => {})
+			FirebaseClass.addPokemon(newPokemon, userID)
 		}
 		history.push('/game')
 

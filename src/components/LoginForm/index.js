@@ -42,7 +42,7 @@ const LoginForm = ({ onSubmit, isOpenModal, isAuth, onChangeAuth, isResetField =
 					onChange={e => setPassword(e.target.value)}
 				/>
 			</div>
-			<button>{isLogin ? 'Signin' : 'Signup'}</button>
+			<button>{isLogin ? 'Login' : 'Signup'}</button>
 
 			<div className={s.auth} onClick={() => setLogin(!isLogin)}>
 				<span> {isLogin ? 'Login' : 'Register'}</span>

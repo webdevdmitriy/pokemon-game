@@ -10,23 +10,12 @@ import s from './style.module.css'
 
 import POKEMONS from '../../assets/pokemons.json'
 import MenuHeader from '../../components/MenuHeader'
-import { plusAction, selectCount } from '../../store/counter'
 
 function HomePage({ onChangePage }) {
-	const count = useSelector(selectCount)
-	const dispatch = useDispatch()
-
-	console.log('count', count)
-
-	const handleClickButton = page => {
-		// onChangePage && onChangePage(page)
-		dispatch(plusAction(1))
-		console.log('count', count)
-	}
 	return (
 		<>
 			<MenuHeader />
-			<Header title='This is title' descr='This is Description!' onClickButton={handleClickButton} />
+			<Header title='This is title' descr='This is Description!' />
 
 			<Layout title='This is title!' descr='This is Description!' urlBg={BackGround}>
 				<p>
